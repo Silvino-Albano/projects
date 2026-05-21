@@ -41,6 +41,22 @@
       >
         🏠 Dashboard Saya
       </router-link>
+
+      <router-link
+          v-if="userRole === 'owner'"
+          to="/owner/subscription"
+          class="btn-add"
+        >
+          Upgrade Plan
+        </router-link>
+
+         <router-link
+          v-if="userRole === 'admin'"
+          to="/admin/subscriptions"
+          class="btn-add"
+        >
+          Management subscription
+        </router-link>
         <button class="btn-logout" @click="handleLogout">Keluar</button>
       </template>
           <router-link v-else to="/login" class="btn-login">Masuk</router-link>
@@ -128,6 +144,7 @@
             ? { backgroundImage: `url(http://127.0.0.1:8000/storage/${kos.gambar})` }
             : {}"
           :class="{ 'card-thumb--image': kos.gambar }"
+          
         >
           <!-- Overlay gelap agar teks tetap terbaca -->
           <div class="thumb-overlay"></div>

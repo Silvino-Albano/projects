@@ -10,6 +10,7 @@ use App\Http\Controllers\Api\OwnerKosController;
 use App\Http\Controllers\Api\PaymentController;
 use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\KomisiController;
+use App\Http\Controllers\Api\SubscriptionController;
 
 
 // Public routes
@@ -132,4 +133,21 @@ Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
     Route::get('/admin/komisi',                    [KomisiController::class, 'adminIndex']);
     Route::get('/admin/komisi/ringkasan',           [KomisiController::class, 'adminRingkasan']);
     Route::patch('/admin/komisi/{id}/konfirmasi',  [KomisiController::class, 'adminKonfirmasi']);
+});
+
+// public
+Route::get('/subscription/plans', [SubscriptionController::class, 'plans']);
+// Owner
+Route::middleware(['auth:sanctum', 'role:owner'])->group(function () {
+    Route::get('/subscription/saya',                    [SubscriptionController::class, 'saya']);
+    Route::post('/subscription/berlangganan',           [SubscriptionController::class, 'berlangganan']);
+    Route::post('/subscription/{id}/upload-bukti',      [SubscriptionController::class, 'uploadBukti']);
+    Route::post('/subscription/{id}/cancel',            [SubscriptionController::class, 'cancel']);
+    Route::get('/owner/subscription/check',             [SubscriptionController::class, 'checkLimit']);
+});
+
+// Admin
+Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
+    Route::get('/admin/subscriptions',                  [SubscriptionController::class, 'adminIndex']);
+    Route::patch('/admin/subscriptions/{id}/konfirmasi',[SubscriptionController::class, 'adminKonfirmasi']);
 });

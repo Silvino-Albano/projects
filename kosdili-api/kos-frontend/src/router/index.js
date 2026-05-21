@@ -11,7 +11,8 @@ import VerifyEmail from '../views/VerifyEmail.vue'
 import OwnerDashboard from '../views/OwnerDashboard.vue'
 import OwnerKomisi from '../views/OwnerKomisi.vue'
 import AdminKomisi from '../views/AdminKomisi.vue'
-
+import OwnerSubscription from '../views/Ownersubscription.vue'
+import AdminSubscription from '../views/AdminSubscription.vue'
 
 const routes = [
   // ✅ Public
@@ -43,6 +44,8 @@ const routes = [
   component : AdminKomisi,
   meta      : { requiresAuth: true, roles: ['admin'] }
 },
+{ path: '/owner/subscription', component: OwnerSubscription, meta: { requiresAuth: true, roles: ['owner'] } },
+{ path: '/admin/subscriptions', component: AdminSubscription, meta: { requiresAuth: true, roles: ['admin'] } },
 ]
 
 const router = createRouter({
