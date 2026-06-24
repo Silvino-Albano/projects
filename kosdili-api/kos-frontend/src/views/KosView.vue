@@ -62,6 +62,7 @@
           <router-link v-else to="/login" class="btn-login">Masuk</router-link>
            <LangSwitcher />
     </div>
+    
     </nav>
 
     <!-- HERO -->

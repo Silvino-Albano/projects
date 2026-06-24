@@ -40,8 +40,13 @@ Route::middleware(['auth:sanctum', 'role:owner,admin'])->group(function () {
 
 // ✅ Hanya admin
 Route::middleware(['auth:sanctum', 'role:admin'])->group(function () {
-    Route::get('/users',         [AuthController::class, 'allUsers']);
-    Route::put('/kos/{id}/status', [KosController::class, 'updateStatus']);
+    Route::get('/admin/kos',                    [AdminKosController::class, 'index']);
+    Route::patch('/admin/kos/{id}/status',      [AdminKosController::class, 'updateStatus']);
+ 
+    // Komisi
+    Route::get('/admin/komisi',                 [KomisiController::class, 'adminIndex']);
+    Route::get('/admin/komisi/ringkasan',       [KomisiController::class, 'adminRingkasan']);
+    Route::patch('/admin/komisi/{id}/konfirmasi', [KomisiController::class, 'adminKonfirmasi']);
 });
 
 

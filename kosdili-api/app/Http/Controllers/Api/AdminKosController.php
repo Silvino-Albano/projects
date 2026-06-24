@@ -12,20 +12,47 @@ use App\Mail\KosStatusMail;
 class AdminKosController extends Controller
 {
     // Admin — lihat semua kos (filter by status)
-    public function index(Request $request)
-    {
-        $query = Kos::with(['user:id,name,email', 'zona:id,nama_zona']);
+    // public function index(Request $request)
+    // {
+    //     $query = Kos::with(['user:id,name,email', 'zona:id,nama_zona']);
 
-        if ($request->has('status')) {
+    //     if ($request->has('status')) {
+    //         $query->where('status', $request->status);
+    //     }
+
+    //     return response()->json([
+    //         'status' => 'success',
+    //         'data'   => $query->latest()->get(),
+    //     ]);
+    // }
+public function index(Request $request)
+    {
+        $query = Kos::with([
+            'user:id,name,email',
+            'zona:id,nama_zona',
+        ]);
+ 
+        // Filter by status
+        if ($request->status) {
             $query->where('status', $request->status);
         }
-
+ 
+        $kosList = $query->latest()->get();
+ 
+        // Hitung jumlah per status
+        $counts = [
+            'pending'  => Kos::where('status', 'pending')->count(),
+            'aktif'    => Kos::where('status', 'aktif')->count(),
+            'nonaktif' => Kos::where('status', 'nonaktif')->count(),
+            'total'    => Kos::count(),
+        ];
+ 
         return response()->json([
             'status' => 'success',
-            'data'   => $query->latest()->get(),
+            'counts' => $counts,
+            'data'   => $kosList,
         ]);
     }
-
     // Admin — update status kos (pending → aktif / nonaktif)
     public function updateStatus(Request $request, $id)
     {
